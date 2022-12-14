@@ -1,0 +1,26 @@
+{
+    "id": "23C9E115",
+    "path": "~/REDCapAPI/R/rcApi-getData.R",
+    "project_path": "R/rcApi-getData.R",
+    "type": "r_source",
+    "hash": "2807814964",
+    "contents": "",
+    "dirty": false,
+    "created": 1671028711526.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "107,5",
+        "scrollLine": "85"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1671028750,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1671028750973,
+    "read_only": false,
+    "read_only_alternatives": []
+}
