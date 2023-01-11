@@ -1,0 +1,14 @@
+Package: redcAPI
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Authors@R: c(
+  person(given = "Susana", family = "Méndez", middle = NULL, email = "susana.mendez@isglobal.com", role = c("aut")),
+  person(given = "Alba", family = "Morató", middle = NULL, email = "alba.morato@isglobal.com", role = c("aut", "cre")))
+Maintainer: Alba Morató <alba.morato@isglobal.com>
+Depends: R (>= 4.2.0), dplyr, redcapAPI
+Description: Wraps the redcapAPI package.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.2
