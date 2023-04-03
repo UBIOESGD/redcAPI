@@ -15,26 +15,26 @@
 #'
 #' @return A data.frame with the data from REDCap.
 #' @export
-readData = function(api_url = "", api_token = "", factors = T, checkboxLabels = T, fields = "", forms = "", events = "",labels = FALSE) {
+readData = function(api_url = "", api_token = "", factors = T, checkboxLabels = T, fields = NULL, forms = "", events = "",labels = FALSE) {
 
   rcon = redcapAPI::redcapConnection(api_url, api_token)
   #field_names = exportFieldNames(rcon)
   #fields = unique(
   #  field_names$original_field_name[! field_names$original_field_name %in% non_retrieved_records])
-
+  id <- redcapAPI::exportFieldNames(rcon)$original_field_name[1]
   if (events == ""){
-    if (forms[1] ==""){
+    if (forms[1] == ""){
       rc_data = redcapAPI::exportRecords(rcon, factors = factors, checkboxLabels = checkboxLabels, labels = labels)
     }else{
-      # md=exportMetaData(rcon)#,forms = "mri" no funciona, no s'aplica el filtre
-      #
-      # # TODO' more than one form!!
-      # md=md%>%filter(form_name==forms[1])
-      # fields=c(exportFieldNames(rcon)[1,1], md[,"field_name"])
-
-      # TODO' more than one form!!
-      fields = fieldsFromForm(rcon, form = forms[1])
-      rc_data = redcapAPI::exportRecords(rcon, factors = factors, fields = fields, checkboxLabels = checkboxLabels, labels = labels)
+      if(length(fields) == 0){
+        fields <- lapply(forms, function(form) fieldsFromForm(rcon = rcon, form = form))
+      }
+      # TODO' complete/fix 'fields' when there is more than one form!!
+      rc_data_forms <- lapply(fields, function(f) {
+        redcapAPI::exportRecords(rcon, factors = factors, fields = f,
+                                 checkboxLabels = checkboxLabels, labels = labels)})
+      merge_by <- c(id, 'redcap_event_name')
+      rc_data <- Reduce(function(x, y) merge(x, y, by = merge_by), rc_data_forms)
     }
   }else{
     if (forms[1] == ""){
@@ -54,8 +54,8 @@ readData = function(api_url = "", api_token = "", factors = T, checkboxLabels = 
         rc_data_forms <- lapply(fields, function(f) {
           redcapAPI::exportRecords(rcon, factors = factors, fields = f, events = events,
                                    checkboxLabels = checkboxLabels, labels = labels)})
-        rc_data <- do.call(merge, c(rc_data_forms, by = c('record_id', 'redcap_event_name', 'redcap_data_access_group')))
-      }
+        merge_by <- c(id, 'redcap_event_name')
+        rc_data <- Reduce(function(x, y) merge(x, y, by = merge_by), rc_data_forms)      }
     }
   }
 
