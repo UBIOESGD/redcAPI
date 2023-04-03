@@ -21,7 +21,6 @@ readData = function(api_url = "", api_token = "", factors = T, checkboxLabels = 
   #field_names = exportFieldNames(rcon)
   #fields = unique(
   #  field_names$original_field_name[! field_names$original_field_name %in% non_retrieved_records])
-  id <- redcapAPI::exportFieldNames(rcon)$original_field_name[1]
   if (events == ""){
     if (forms[1] == ""){
       rc_data = redcapAPI::exportRecords(rcon, factors = factors, checkboxLabels = checkboxLabels, labels = labels)
@@ -33,8 +32,8 @@ readData = function(api_url = "", api_token = "", factors = T, checkboxLabels = 
       rc_data_forms <- lapply(fields, function(f) {
         redcapAPI::exportRecords(rcon, factors = factors, fields = f,
                                  checkboxLabels = checkboxLabels, labels = labels)})
-      merge_by <- c(id, 'redcap_event_name')
-      rc_data <- Reduce(function(x, y) merge(x, y, by = merge_by), rc_data_forms)
+      rc_data <- Reduce(function(x, y) merge(x, y), rc_data_forms)
+
     }
   }else{
     if (forms[1] == ""){
@@ -54,8 +53,7 @@ readData = function(api_url = "", api_token = "", factors = T, checkboxLabels = 
         rc_data_forms <- lapply(fields, function(f) {
           redcapAPI::exportRecords(rcon, factors = factors, fields = f, events = events,
                                    checkboxLabels = checkboxLabels, labels = labels)})
-        merge_by <- c(id, 'redcap_event_name')
-        rc_data <- Reduce(function(x, y) merge(x, y, by = merge_by), rc_data_forms)      }
+        rc_data <- Reduce(function(x, y) merge(x, y), rc_data_forms)      }
     }
   }
 
