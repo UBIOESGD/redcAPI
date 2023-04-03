@@ -22,8 +22,8 @@ readData = function(api_url = "", api_token = "", factors = T, checkboxLabels = 
   #fields = unique(
   #  field_names$original_field_name[! field_names$original_field_name %in% non_retrieved_records])
 
-  if (events==""){
-    if (forms==""){
+  if (events == ""){
+    if (forms[1] ==""){
       rc_data = redcapAPI::exportRecords(rcon, factors = factors, checkboxLabels = checkboxLabels, labels = labels)
     }else{
       # md=exportMetaData(rcon)#,forms = "mri" no funciona, no s'aplica el filtre
