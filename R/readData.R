@@ -37,7 +37,7 @@ readData = function(api_url = "", api_token = "", factors = T, checkboxLabels = 
     }
   }else{
     if (forms[1] == ""){
-      if (fields == ""){
+      if (is.null(fields)){
         rc_data = redcapAPI::exportRecords(rcon, factors = factors, events = events, checkboxLabels = checkboxLabels, labels = labels)
       }else{
         rc_data = redcapAPI::exportRecords(rcon, factors = factors, fields = fields, events = events, checkboxLabels = checkboxLabels, labels = labels)
